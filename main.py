@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from api.view import  blog_view
 
 app = FastAPI(
-    title="job_entry",
-    description="Lionbridge AI Job Management Service",
+    title="Blog API",
+    description="This API serve's its client react-blog-cyapa",
     version="1.0"
 )
 

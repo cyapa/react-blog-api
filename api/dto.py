@@ -11,6 +11,10 @@ class Blog(BaseModel):
     ctime:datetime
     mtime:datetime
 
+class UnsavedBlog(BaseModel):
+    title:str
+    content:str
+
 class BlogFilter(BaseModel):
     id: Optional[BlogID]
     title:Optional[str]
