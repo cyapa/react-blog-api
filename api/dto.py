@@ -19,5 +19,3 @@ class BlogFilter(BaseModel):
     id: Optional[BlogID]
     title:Optional[str]
     content:Optional[str]
-    ctime:datetime
-    mtime:datetime

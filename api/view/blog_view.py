@@ -12,5 +12,12 @@ async def read_blogs(db_session: AsyncSessionLocal = Depends(get_db)):
 
 
 @router.post("/blog")
-async def create_blog(unsaved_blog: dto.UnsavedBlog,db_session: AsyncSessionLocal = Depends(get_db)):
-    return await blog_domain.create_blog(db_session=db_session,unsaved_blog=unsaved_blog)
+async def insert_one(unsaved_blog: dto.UnsavedBlog,db_session: AsyncSessionLocal = Depends(get_db)):
+    return await blog_domain.insert_one(db_session=db_session,unsaved_blog=unsaved_blog)
+
+@router.delete("/blog/{blog_id}")
+async def delete_one(blog_id:dto.BlogID,db_session: AsyncSessionLocal = Depends(get_db)):
+    blog_filter = dto.BlogFilter(
+        id=blog_id
+    )
+    return await blog_domain.delete_one(db_session=db_session,blog_filter=blog_filter)
