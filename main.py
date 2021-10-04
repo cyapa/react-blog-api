@@ -1,11 +1,11 @@
 from fastapi import FastAPI
-from api import  blog_view
-app = FastAPI()
+from api.view import  blog_view
+
+app = FastAPI(
+    title="job_entry",
+    description="Lionbridge AI Job Management Service",
+    version="1.0"
+)
 
 
-
-
-
-@app.get("/blogs")
-async def get_blogs():
-    return await blog_view.read_blogs()
+app.include_router(blog_view.router)
