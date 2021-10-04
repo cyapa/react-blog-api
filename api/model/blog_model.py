@@ -42,3 +42,13 @@ async def find_many(db_session: db_provider.AsyncSessionLocal,blog_filter:Option
     rows = result.all()
     blogs = [_blog_from_orm_object(row[0]) for row in rows]
     return blogs
+
+
+async def create_blog(db_session:db_provider.AsyncSessionLocal,unsaved_blog:dto.UnsavedBlog)->dto.BlogID:
+    blog = db_provider.Blog(
+        title=unsaved_blog.title,
+        content=unsaved_blog.content,
+    )
+    db_session.add(blog)
+    await db_session.flush()
+    return dto.BlogID(blog.id)
