@@ -1,9 +1,10 @@
-from api import dto
-from api import db_provider
-from typing import List,Optional
-from sqlalchemy import exc, select,delete
-from sqlalchemy.sql.selectable import Select
+from typing import List, Optional
+
+from sqlalchemy import delete, exc, select
 from sqlalchemy.sql.dml import Delete
+from sqlalchemy.sql.selectable import Select
+
+from api import db_provider, dto
 
 
 def _blog_from_orm_object(

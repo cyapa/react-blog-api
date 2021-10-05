@@ -1,12 +1,7 @@
-from api.session import AsyncSessionLocal
-from sqlalchemy import (
-    Column,
-    DateTime,
-    Integer,
-    String,
-    text,
-)
+from sqlalchemy import Column, DateTime, Integer, String, text
 from sqlalchemy.ext.declarative import declarative_base
+
+from api.session import AsyncSessionLocal
 
 Base = declarative_base()
 

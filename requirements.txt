@@ -3,3 +3,4 @@ uvicorn==0.15.0
 sqlalchemy==1.4.25
 asyncpg===0.24.0
 gunicorn===20.1.0
+isort==5.9.3

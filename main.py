@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.view import  blog_view
+
+from api.view import blog_view
 
 app = FastAPI(
     title="Blog API",

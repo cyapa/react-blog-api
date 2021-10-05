@@ -1,6 +1,7 @@
-from pydantic import BaseModel
 from datetime import datetime
-from typing import NewType,Optional
+from typing import NewType, Optional
+
+from pydantic import BaseModel
 
 BlogID = NewType("BlogID", int)
 
