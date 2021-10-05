@@ -12,7 +12,7 @@ app = FastAPI(
 app = FastAPI()
 
 origins = [
-    "https://react-blog-cyapa.herokuapp.com/",
+    "https://react-blog-cyapa.herokuapp.com",
     "http://localhost:3000",
 ]
 
