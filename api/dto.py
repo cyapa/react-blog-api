@@ -10,8 +10,12 @@ NoneEmptyStringField =constr(strip_whitespace=True,min_length=1)
 class CreateResult(BaseModel):
     id: int
 
+class DeleteResult(BaseModel):
+    message: str
+
 class ErrorResponse(BaseModel):
     errors:NoneEmptyStringField
+
 
 
 class Blog(BaseModel):

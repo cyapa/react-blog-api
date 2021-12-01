@@ -3,7 +3,7 @@ from typing import List, Optional
 from sqlalchemy import delete, exc, select
 from sqlalchemy.sql.dml import Delete
 from sqlalchemy.sql.selectable import Select
-
+from api.common import exceptions
 from api import db_provider, dto
 
 
@@ -79,5 +79,5 @@ async def delete_one(db_session:db_provider.AsyncSessionLocal,blog_filter:dto.Bl
     try:
         result = await db_session.execute(delete_query)
     except:
-        return False
-    return result.rowcount == 1
+        raise exceptions.BlogDeleteError(f"Error deleting the Blog with filter {blog_filter.dict(exclude_none=True)} ")
+    return True

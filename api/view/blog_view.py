@@ -44,9 +44,13 @@ async def insert_one(unsaved_blog: dto.UnsavedBlog=Depends(dependencies.unsaved_
     blog_id = await blog_domain.insert_one(db_session=db_session,unsaved_blog=unsaved_blog)
     return dto.CreateResult(id=blog_id)
 
-@router.delete("/blog/{blog_id}")
+@router.delete("/blog/{blog_id}",
+    response_model=dto.DeleteResult,
+    status_code=status.HTTP_200_OK,
+)
 async def delete_one(blog_id:dto.BlogID,db_session: AsyncSessionLocal = Depends(get_db))->bool:
     blog_filter = dto.BlogFilter(
         id=blog_id
     )
-    return await blog_domain.delete_one(db_session=db_session,blog_filter=blog_filter)
+    await blog_domain.delete_one(db_session=db_session,blog_filter=blog_filter)
+    return dto.DeleteResult(message="Blog deleted successfully")
