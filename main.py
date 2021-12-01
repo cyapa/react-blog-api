@@ -24,4 +24,4 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(blog_view.router)
+app.include_router(blog_view.router,tags=["Blog"])
