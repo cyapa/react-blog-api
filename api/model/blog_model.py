@@ -31,7 +31,10 @@ def _get_blog_filter_query_select(
             _query = _query.where(
                 db_provider.Blog.title == blog_filter.title
             )
-
+        if blog_filter.is_deleted is not None:
+            _query = _query.where(
+                db_provider.Blog.is_deleted == blog_filter.is_deleted
+            )
     return _query
 
 def _get_blog_filter_query_delete(
@@ -46,6 +49,10 @@ def _get_blog_filter_query_delete(
     if blog_filter.title is not None:
         _query = _query.where(
             db_provider.Blog.title == blog_filter.title
+        )
+    if blog_filter.is_deleted is not None:
+        _query = _query.where(
+            db_provider.Blog.is_deleted == blog_filter.is_deleted
         )
     return _query
 

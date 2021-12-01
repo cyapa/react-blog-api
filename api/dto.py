@@ -24,3 +24,4 @@ class UnsavedBlog(BaseModel):
 class BlogFilter(BaseModel):
     id: Optional[BlogID]
     title:Optional[NoneEmptyStringField]
+    is_deleted: Optional[bool]

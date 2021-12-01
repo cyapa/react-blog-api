@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, Integer, String, text
+from sqlalchemy import Column, DateTime, Integer, String, text,Boolean
 from sqlalchemy.ext.declarative import declarative_base
 
 from api.session import AsyncSessionLocal
@@ -19,6 +19,7 @@ class Blog(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(100), nullable=False)
     content = Column(String(1000), nullable=False)
+    is_deleted = Column(Boolean)
     ctime = Column(
         DateTime(timezone=True), nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
