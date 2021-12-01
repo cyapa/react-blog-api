@@ -1,22 +1,22 @@
 from datetime import datetime
 from typing import NewType, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel,constr
 
 BlogID = NewType("BlogID", int)
+NoneEmptyStringField =constr(strip_whitespace=True,min_length=1)
 
 class Blog(BaseModel):
     id: BlogID
-    title:str
-    content:str
+    title:NoneEmptyStringField
+    content:NoneEmptyStringField
     ctime:datetime
     mtime:datetime
 
 class UnsavedBlog(BaseModel):
-    title:str
-    content:str
+    title:NoneEmptyStringField
+    content:NoneEmptyStringField
 
 class BlogFilter(BaseModel):
     id: Optional[BlogID]
-    title:Optional[str]
-    content:Optional[str]
+    title:Optional[NoneEmptyStringField]

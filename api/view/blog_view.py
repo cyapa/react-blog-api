@@ -5,13 +5,17 @@ from fastapi import APIRouter, Depends
 from api import dto
 from api.db_provider import AsyncSessionLocal, get_db
 from api.domain import blog_domain
-
+from api.view import dependencies
 router = APIRouter()
 
 
 @router.get("/blogs")
-async def read_blogs(db_session: AsyncSessionLocal = Depends(get_db))->List[dto.Blog]:
-    return await blog_domain.read_blogs(db_session=db_session)
+async def read_blogs(
+    db_session: AsyncSessionLocal = Depends(get_db),
+    blog_filter:dto.BlogFilter = Depends(dependencies.blog_filter_from_query_params)
+    )->List[dto.Blog]:
+    print(blog_filter)
+    return await blog_domain.read_blogs(db_session=db_session,blog_filter=blog_filter)
 
 
 @router.post("/blog")
