@@ -19,7 +19,7 @@ class Blog(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(100), nullable=False)
     content = Column(String(1000), nullable=False)
-    is_deleted = Column(Boolean)
+    is_deleted = Column(Boolean,nullable=False, default=False)
     ctime = Column(
         DateTime(timezone=True), nullable=False, server_default=text("CURRENT_TIMESTAMP")
     )
