@@ -40,7 +40,7 @@ async def read_blogs(
     response_model=dto.CreateResult,
     status_code=status.HTTP_201_CREATED,
 )
-async def insert_one(unsaved_blog: dto.UnsavedBlog,db_session: AsyncSessionLocal = Depends(get_db))->dto.CreateResult:
+async def insert_one(unsaved_blog: dto.UnsavedBlog=Depends(dependencies.unsaved_blog_from_payload),db_session: AsyncSessionLocal = Depends(get_db))->dto.CreateResult:
     blog_id = await blog_domain.insert_one(db_session=db_session,unsaved_blog=unsaved_blog)
     return dto.CreateResult(id=blog_id)
 
