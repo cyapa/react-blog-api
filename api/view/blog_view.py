@@ -33,7 +33,7 @@ async def read_blogs(
     if not blog_filter.dict(exclude_none=True):
         raise exceptions.EmptyFilter()
 
-    return await blog_domain.read_blogs(db_session=db_session,blog_filter=blog_filter)
+    return await blog_domain.find_blogs(db_session=db_session,blog_filter=blog_filter)
 
 
 @router.post("/blog",
@@ -41,7 +41,7 @@ async def read_blogs(
     status_code=status.HTTP_201_CREATED,
 )
 async def insert_one(unsaved_blog: dto.UnsavedBlog=Depends(dependencies.unsaved_blog_from_payload),db_session: AsyncSessionLocal = Depends(get_db))->dto.CreateResult:
-    blog_id = await blog_domain.insert_one(db_session=db_session,unsaved_blog=unsaved_blog)
+    blog_id = await blog_domain.insert_blog(db_session=db_session,unsaved_blog=unsaved_blog)
     return dto.CreateResult(id=blog_id)
 
 @router.delete("/blog/{blog_id}",
@@ -52,5 +52,7 @@ async def delete_one(blog_id:dto.BlogID,db_session: AsyncSessionLocal = Depends(
     blog_filter = dto.BlogFilter(
         id=blog_id
     )
-    await blog_domain.delete_one(db_session=db_session,blog_filter=blog_filter)
+    is_deleted = await blog_domain.delete_blogs(db_session=db_session,blog_filter=blog_filter)
+    if not is_deleted:
+         return dto.DeleteResult(message="Blog not deleted")
     return dto.DeleteResult(message="Blog deleted successfully")

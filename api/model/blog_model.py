@@ -56,7 +56,7 @@ def _get_blog_filter_query_delete(
         )
     return _query
 
-async def find_many(db_session: db_provider.AsyncSessionLocal,blog_filter:Optional[dto.BlogFilter]=None)->List[dto.Blog]:
+async def read_many(db_session: db_provider.AsyncSessionLocal,blog_filter:Optional[dto.BlogFilter]=None)->List[dto.Blog]:
     find_query = _get_blog_filter_query_select(blog_filter=blog_filter)
     result = await db_session.execute(find_query)
     rows = result.all()
@@ -64,7 +64,7 @@ async def find_many(db_session: db_provider.AsyncSessionLocal,blog_filter:Option
     return blogs
 
 
-async def insert_one(db_session:db_provider.AsyncSessionLocal,unsaved_blog:dto.UnsavedBlog)->dto.BlogID:
+async def create_one(db_session:db_provider.AsyncSessionLocal,unsaved_blog:dto.UnsavedBlog)->dto.BlogID:
     new_blog = db_provider.Blog(
         title=unsaved_blog.title,
         content=unsaved_blog.content,
@@ -74,10 +74,10 @@ async def insert_one(db_session:db_provider.AsyncSessionLocal,unsaved_blog:dto.U
     return dto.BlogID(new_blog.id)
 
 
-async def delete_one(db_session:db_provider.AsyncSessionLocal,blog_filter:dto.BlogFilter)->bool:
+async def delete_many(db_session:db_provider.AsyncSessionLocal,blog_filter:dto.BlogFilter)->bool:
     delete_query = _get_blog_filter_query_delete(blog_filter=blog_filter)
     try:
         result = await db_session.execute(delete_query)
     except:
         raise exceptions.BlogDeleteError(f"Error deleting the Blog with filter {blog_filter.dict(exclude_none=True)} ")
-    return True
+    return result.rowcount > 0
