@@ -33,7 +33,25 @@ def _get_comment_filter_query_select(
     return _query
 
 
-async def find_many(db_session: db_provider.AsyncSessionLocal,comment_filter:Optional[dto.CommentFilter]=None)->List[dto.Comment]:
+def _get_comment_filter_query_delete(comment_filter: dto.CommentFilter) -> Delete:
+    _query = delete(db_provider.Comment)
+
+    if comment_filter.id is not None:
+        _query = _query.where(
+            db_provider.Comment.id == comment_filter.id
+        )
+    if comment_filter.blog_id is not None:
+        _query = _query.where(
+            db_provider.Comment.blog_id == comment_filter.blog_id
+        )
+    if comment_filter.is_deleted is not None:
+        _query = _query.where(
+            db_provider.Comment.is_deleted == comment_filter.is_deleted
+        )
+    return _query
+
+
+async def read_many(db_session: db_provider.AsyncSessionLocal,comment_filter:Optional[dto.CommentFilter]=None)->List[dto.Comment]:
     find_query = _get_comment_filter_query_select(comment_filter=comment_filter)
     result = await db_session.execute(find_query)
     rows = result.all()
@@ -41,7 +59,7 @@ async def find_many(db_session: db_provider.AsyncSessionLocal,comment_filter:Opt
     return comments
 
 
-async def insert_one(db_session:db_provider.AsyncSessionLocal,unsaved_comment:dto.UnsavedComment)->dto.CommentID:
+async def create_one(db_session:db_provider.AsyncSessionLocal,unsaved_comment:dto.UnsavedComment)->dto.CommentID:
     new_comment = db_provider.Comment(
         blog_id=unsaved_comment.blog_id,
         comment=unsaved_comment.comment,
@@ -49,3 +67,12 @@ async def insert_one(db_session:db_provider.AsyncSessionLocal,unsaved_comment:dt
     db_session.add(new_comment)
     await db_session.flush()
     return dto.CommentID(new_comment.id)
+
+
+async def delete_many(db_session:db_provider.AsyncSessionLocal,comment_filter:dto.CommentFilter)->bool:
+    delete_query = _get_comment_filter_query_delete(comment_filter=comment_filter)
+    try:
+        result = await db_session.execute(delete_query)
+    except:
+        raise exceptions.CommentDeleteError(f"Error deleting the Comments with filter {comment_filter.dict(exclude_none=True)} ")
+    return result.rowcount>0

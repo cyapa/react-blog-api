@@ -34,7 +34,7 @@ async def read_comments(
     if not comment_filter.dict(exclude_none=True):
         raise exceptions.EmptyFilter()
 
-    return await comment_domain.read_comments(db_session=db_session,comment_filter=comment_filter)
+    return await comment_domain.find_comments(db_session=db_session,comment_filter=comment_filter)
 
 
 @router.post("/comment",
@@ -44,5 +44,18 @@ async def read_comments(
 async def insert_one(
     unsaved_comment: dto.UnsavedComment=Depends(dependencies.unsaved_comment_from_payload),
     db_session: AsyncSessionLocal = Depends(get_db))->dto.CreateResult:
-    comment_id = await comment_domain.insert_one(db_session=db_session,unsaved_comment=unsaved_comment)
+    comment_id = await comment_domain.insert_comment(db_session=db_session,unsaved_comment=unsaved_comment)
     return dto.CreateResult(id=comment_id)
+
+
+@router.delete("/comments",
+    response_model=dto.DeleteResult,
+    status_code=status.HTTP_200_OK,
+)
+async def delete_comments(
+    comment_filter:dto.CommentFilter = Depends(dependencies.comment_filter_from_query_params),
+    db_session: AsyncSessionLocal = Depends(get_db))->bool:
+    is_deleted = await comment_domain.delete_comments(db_session=db_session,comment_filter=comment_filter)
+    if not is_deleted:
+         return dto.DeleteResult(message="Comments not deleted")
+    return dto.DeleteResult(message="Comments deleted successfully")
