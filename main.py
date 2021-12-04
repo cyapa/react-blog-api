@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from api.view import blog_view
+from api.view import blog_view,comment_view
 
 app = FastAPI(
     title="Blog API",
@@ -25,3 +25,4 @@ app.add_middleware(
 )
 
 app.include_router(blog_view.router,tags=["Blog"])
+app.include_router(comment_view.router,tags=["Comment"])

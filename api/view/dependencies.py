@@ -11,7 +11,7 @@ def blog_filter_from_query_params(
     ),
     title:Optional[dto.NoneEmptyStringField] = Query(
         None,
-        title="title of the Blog post",
+        title="Title of the Blog post",
         description=("Title of the blog post. Example: First ever blog post")
     ),  
     is_deleted:Optional[bool] = Query(
@@ -20,15 +20,15 @@ def blog_filter_from_query_params(
         description=("Blog is deleted or not. Example: 'true' if deleted, 'false' if not")
     ),
 )->dto.BlogFilter:
-    blog_filter = dto.BlogFilter()
+    comment_filter = dto.BlogFilter()
 
     if id:
-        blog_filter.id = id
+        comment_filter.id = id
     if title:
-        blog_filter.title =title.strip()
+        comment_filter.title =title.strip()
     if is_deleted is not None:
-        blog_filter.is_deleted=is_deleted
-    return blog_filter
+        comment_filter.is_deleted=is_deleted
+    return comment_filter
 
 def unsaved_blog_from_payload(
     title: dto.NoneEmptyStringField = Body(
@@ -46,3 +46,31 @@ def unsaved_blog_from_payload(
         title=title.strip(),
         content=content.strip()
     )
+
+
+def comment_filter_from_query_params(
+    id:Optional[dto.CommentID] = Query(
+        None,
+        title="Id of the Comment",
+        description=("Id of the comment. Example: 1")
+    ),
+    blog_id:Optional[dto.BlogID] = Query(
+        None,
+        title="Id of the Blog post",
+        description=("Id of the blog post. Example: 2")
+    ),  
+    is_deleted:Optional[bool] = Query(
+        None,
+        title="Indicates whether comment is deleted or not",
+        description=("Comment is deleted or not. Example: 'true' if deleted, 'false' if not")
+    ),
+)->dto.CommentFilter:
+    comment_filter = dto.CommentFilter()
+
+    if id:
+        comment_filter.id = id
+    if blog_id:
+        comment_filter.blog_id =blog_id
+    if is_deleted is not None:
+        comment_filter.is_deleted=is_deleted
+    return comment_filter
