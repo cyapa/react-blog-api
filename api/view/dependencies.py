@@ -74,3 +74,20 @@ def comment_filter_from_query_params(
     if is_deleted is not None:
         comment_filter.is_deleted=is_deleted
     return comment_filter
+
+def unsaved_comment_from_payload(
+    blog_id: dto.BlogID = Body(
+        None,
+        title="Id of the blog post",
+        description=("Id of the blog post. Example: 1"),
+    ),
+    comment: dto.NoneEmptyStringField = Body(
+        None,
+        title="Content of the comment",
+        description=("Content of the comment. Example: 'This is a comment'"),
+    ),
+)->dto.UnsavedComment:
+    return dto.UnsavedComment(
+        blog_id=blog_id,
+        comment=comment.strip(),
+    )

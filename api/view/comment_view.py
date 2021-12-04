@@ -35,3 +35,14 @@ async def read_comments(
         raise exceptions.EmptyFilter()
 
     return await comment_domain.read_comments(db_session=db_session,comment_filter=comment_filter)
+
+
+@router.post("/comment",
+    response_model=dto.CreateResult,
+    status_code=status.HTTP_201_CREATED,
+)
+async def insert_one(
+    unsaved_comment: dto.UnsavedComment=Depends(dependencies.unsaved_comment_from_payload),
+    db_session: AsyncSessionLocal = Depends(get_db))->dto.CreateResult:
+    comment_id = await comment_domain.insert_one(db_session=db_session,unsaved_comment=unsaved_comment)
+    return dto.CreateResult(id=comment_id)

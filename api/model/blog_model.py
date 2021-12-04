@@ -65,13 +65,13 @@ async def find_many(db_session: db_provider.AsyncSessionLocal,blog_filter:Option
 
 
 async def insert_one(db_session:db_provider.AsyncSessionLocal,unsaved_blog:dto.UnsavedBlog)->dto.BlogID:
-    blog = db_provider.Blog(
+    new_blog = db_provider.Blog(
         title=unsaved_blog.title,
         content=unsaved_blog.content,
     )
-    db_session.add(blog)
+    db_session.add(new_blog)
     await db_session.flush()
-    return dto.BlogID(blog.id)
+    return dto.BlogID(new_blog.id)
 
 
 async def delete_one(db_session:db_provider.AsyncSessionLocal,blog_filter:dto.BlogFilter)->bool:

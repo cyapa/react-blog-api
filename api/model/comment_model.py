@@ -39,3 +39,13 @@ async def find_many(db_session: db_provider.AsyncSessionLocal,comment_filter:Opt
     rows = result.all()
     comments = [_comment_from_orm_object(row[0]) for row in rows]
     return comments
+
+
+async def insert_one(db_session:db_provider.AsyncSessionLocal,unsaved_comment:dto.UnsavedComment)->dto.CommentID:
+    new_comment = db_provider.Comment(
+        blog_id=unsaved_comment.blog_id,
+        comment=unsaved_comment.comment,
+    )
+    db_session.add(new_comment)
+    await db_session.flush()
+    return dto.CommentID(new_comment.id)
