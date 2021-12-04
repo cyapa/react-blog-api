@@ -13,6 +13,13 @@ class BlogNotFound(APIException):
 class BlogDeleteError(APIException):
     pass
 
+class CommentDeleteError(APIException):
+    pass
+
+class CommentNotFound(APIException):
+    pass
+
+
 class EmptyFilter(BlogHttpException):
     def __init__(self,)->None:
         super().__init__("Empty filters are not allowed")  
