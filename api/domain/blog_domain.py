@@ -1,12 +1,10 @@
 from typing import List, Optional
-
 from api import dto
 from api.db_provider import AsyncSessionLocal
-from api.dto import Blog
 from api.model import blog_model
 
 
-async def read_blogs(db_session: AsyncSessionLocal,blog_filter:Optional[dto.BlogFilter]=None)->List[Blog]:
+async def read_blogs(db_session: AsyncSessionLocal,blog_filter:Optional[dto.BlogFilter]=None)->List[dto.Blog]:
     return await blog_model.find_many(db_session=db_session,blog_filter=blog_filter)
 
     
