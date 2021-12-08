@@ -15,6 +15,6 @@ async def insert_blog(db_session: AsyncSessionLocal,unsaved_blog:dto.UnsavedBlog
 
 
 async def delete_blogs(db_session: AsyncSessionLocal,blog_filter:dto.BlogFilter)->bool:
-    is_deleted = await blog_model.delete_one(db_session=db_session,blog_filter=blog_filter)
+    is_deleted = await blog_model.delete_many(db_session=db_session,blog_filter=blog_filter)
     await db_session.commit()
     return is_deleted
