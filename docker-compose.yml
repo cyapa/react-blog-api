@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  blog-api:
+    build: .
+    ports:
+      - "8181:8181"
+
+    networks:
+      - internal
+    container_name: blog-api
+networks:
+  internal:
+    external: false
