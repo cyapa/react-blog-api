@@ -20,15 +20,15 @@ def blog_filter_from_query_params(
         description=("Blog is deleted or not. Example: 'true' if deleted, 'false' if not")
     ),
 )->dto.BlogFilter:
-    comment_filter = dto.BlogFilter()
+    blog_filter = dto.BlogFilter()
 
     if id:
-        comment_filter.id = id
+        blog_filter.id = id
     if title:
-        comment_filter.title =title.strip()
+        blog_filter.title =title.strip()
     if is_deleted is not None:
-        comment_filter.is_deleted=is_deleted
-    return comment_filter
+        blog_filter.is_deleted=is_deleted
+    return blog_filter
 
 def unsaved_blog_from_payload(
     title: dto.NoneEmptyStringField = Body(
