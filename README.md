@@ -33,3 +33,5 @@
 1. Clone this repo from GitHub and from root directory run `pip install -r requirements.txt` to install the dependancies. 
 
     Then run `uvicorn main:app --reload` to host the API in local machine. The documentation is available on [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+    
+2. If you have Docker, run `docker-compose up`
