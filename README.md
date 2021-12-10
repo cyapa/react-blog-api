@@ -17,7 +17,16 @@
     - [ ] Create
     - [ ] Delete
     - [ ] Read
+ 
+- Database migration
+   - [ ] Create migration shell script
+   - [ ] Create migration SQLs
 
+- Docker setup
+    - [x] Basic API deployment
+    - [ ] Database migration before API dpeloyment
+
+- MakeFile setup
 
 ## How to run the API in local machine
 
